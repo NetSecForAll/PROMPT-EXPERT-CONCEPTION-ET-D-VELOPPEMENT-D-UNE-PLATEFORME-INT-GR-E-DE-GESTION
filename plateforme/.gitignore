@@ -7,3 +7,4 @@ fichiers/
 sauvegardes/
 .pytest_cache/
 .ruff_cache/
+IDENTIFIANTS.txt

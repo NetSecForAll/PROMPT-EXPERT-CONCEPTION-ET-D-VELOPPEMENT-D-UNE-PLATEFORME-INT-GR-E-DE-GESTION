@@ -19,7 +19,23 @@ Parc automobile, Documents, Stocks, Projets et Rapports. Ce lot livre :
 
 Les modules métier (parc, documents, stocks…) ne sont **pas encore** développés.
 
-## Installation pour le développement
+## Installation en une commande
+
+Prérequis : Python 3.12+ et PostgreSQL 16 installé et démarré. Depuis ce dossier :
+
+```bash
+python installer.py      # ou, dans Jupyter : %run installer.py
+python manage.py runserver
+```
+
+Le script installe les dépendances, génère la clé secrète et le mot de passe de la base,
+écrit `.env`, crée l'utilisateur et la base PostgreSQL (il demande le mot de passe du
+compte `postgres`), crée les tables, un compte `admin` et les données de démonstration.
+**Tous les secrets et mots de passe sont affichés et enregistrés dans `IDENTIFIANTS.txt`**
+(fichier exclu de Git : le conserver en lieu sûr). Le relancer conserve les secrets de
+`.env` et génère un nouveau mot de passe `admin`.
+
+## Installation pour le développement (étape par étape)
 
 Prérequis : Python 3.12 ou plus récent, PostgreSQL 16.
 
