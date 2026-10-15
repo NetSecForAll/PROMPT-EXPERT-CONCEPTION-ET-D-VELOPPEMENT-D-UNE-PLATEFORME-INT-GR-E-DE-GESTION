@@ -8,3 +8,4 @@ sauvegardes/
 .pytest_cache/
 .ruff_cache/
 IDENTIFIANTS.txt
+VERDICT-FINAL.md
