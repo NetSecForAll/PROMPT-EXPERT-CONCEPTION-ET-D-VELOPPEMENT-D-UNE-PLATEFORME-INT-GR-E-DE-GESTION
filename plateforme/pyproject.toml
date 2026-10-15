@@ -2,7 +2,7 @@
 name = "plateforme"
 version = "0.1.0"
 description = "Plateforme intégrée de gestion administrative, logistique et documentaire"
-requires-python = ">=3.12"
+requires-python = ">=3.10"
 
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "config.settings"
@@ -12,7 +12,7 @@ filterwarnings = ["ignore::DeprecationWarning:qrcode.*"]
 
 [tool.ruff]
 line-length = 120
-target-version = "py312"
+target-version = "py310"
 extend-exclude = ["*/migrations/*"]
 
 [tool.ruff.lint]

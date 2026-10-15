@@ -1,5 +1,5 @@
 # Dépendances figées de la plateforme (installation : pip install -r requirements.txt)
-Django==5.2.7
+Django==5.2.18
 psycopg[binary]==3.2.10
 django-axes==8.0.0
 django-otp==1.6.1

@@ -1,6 +1,6 @@
 # Plateforme intégrée de gestion — lot Socle
 
-Application Django (Python 3.12+, PostgreSQL 16) qui sert de fondation aux modules
+Application Django (Python 3.10 à 3.14, PostgreSQL 16) qui sert de fondation aux modules
 Parc automobile, Documents, Stocks, Projets et Rapports. Ce lot livre :
 
 | Fonction | Où |
@@ -21,7 +21,7 @@ Les modules métier (parc, documents, stocks…) ne sont **pas encore** dévelop
 
 ## Installation en une commande
 
-Prérequis : Python 3.12+ et PostgreSQL 16 installé et démarré. Depuis ce dossier :
+Prérequis : Python 3.10 à 3.14 (3.12 recommandé) et PostgreSQL 16 installé et démarré. Depuis ce dossier :
 
 ```bash
 python installer.py      # ou, dans Jupyter : %run installer.py
@@ -37,7 +37,7 @@ compte `postgres`), crée les tables, un compte `admin` et les données de démo
 
 ## Installation pour le développement (étape par étape)
 
-Prérequis : Python 3.12 ou plus récent, PostgreSQL 16.
+Prérequis : Python 3.10 à 3.14 (3.12 recommandé, comme l'image Docker), PostgreSQL 16.
 
 ```bash
 # 1. Base de données (une fois)

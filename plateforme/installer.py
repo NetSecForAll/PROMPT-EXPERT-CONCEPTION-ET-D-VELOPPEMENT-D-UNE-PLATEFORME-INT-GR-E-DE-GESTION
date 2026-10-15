@@ -99,6 +99,11 @@ def creer_base(env):
 
 
 def main():
+    if not (3, 10) <= sys.version_info[:2] <= (3, 14):
+        sys.exit(
+            f"Python {sys.version.split()[0]} n'est pas pris en charge : installez Python 3.10 à 3.14 "
+            "(3.12 recommandé) depuis https://www.python.org/downloads/"
+        )
     os.chdir(DOSSIER)
     if not (DOSSIER / "manage.py").exists():
         sys.exit("Lancez ce script depuis le dossier plateforme/ (celui qui contient manage.py).")
