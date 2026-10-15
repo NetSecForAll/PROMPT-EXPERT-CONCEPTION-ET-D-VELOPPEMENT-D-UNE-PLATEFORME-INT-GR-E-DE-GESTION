@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block contenu %}
+<h1 class="h4 mb-3">{{ titre }} : {{ object.libelle }}</h1>
+<form method="post" novalidate class="formulaire">{% csrf_token %}<input type="hidden" name="version_formulaire" value="{{ version_formulaire }}">{% include "composants/champs.html" %}
+  <button class="btn btn-primary">Enregistrer</button> <a class="btn btn-outline-secondary" href="{{ url_retour }}">Retour</a></form>
+<div class="d-flex align-items-center mt-4 mb-2"><h2 class="h5 mb-0 me-auto">Étapes</h2>
+{% if perms.validation.add_etapecircuit %}<a class="btn btn-sm btn-primary" href="{% url 'validation:etape_creer' object.pk %}">Ajouter une étape</a>{% endif %}</div>
+{% if etapes %}<div class="table-responsive tableau-cartes"><table class="table align-middle">
+<thead><tr><th>Ordre</th><th>Libellé</th><th>Valideur</th><th>Seuil (XOF)</th><th>Active</th><th></th></tr></thead>
+<tbody>{% for e in etapes %}<tr><td>{{ e.ordre }}</td><td>{{ e.libelle }}</td>
+<td>{{ e.get_mode_display }}{% if e.profil %} : {{ e.profil.name }}{% endif %}{% if e.utilisateur %} : {{ e.utilisateur }}{% endif %}</td>
+<td>{{ e.seuil_montant|default:"—" }}</td><td>{{ e.actif|yesno:"Oui,Non" }}</td>
+<td class="text-end">{% if perms.validation.change_etapecircuit %}<a class="btn btn-sm btn-outline-primary" href="{% url 'validation:etape_modifier' e.pk %}">Modifier</a>{% endif %}</td></tr>{% endfor %}</tbody></table></div>
+{% else %}<p class="text-secondary">Ce circuit n'a pas encore d'étape : aucune demande ne pourra y être soumise.</p>{% endif %}
+{% endblock %}

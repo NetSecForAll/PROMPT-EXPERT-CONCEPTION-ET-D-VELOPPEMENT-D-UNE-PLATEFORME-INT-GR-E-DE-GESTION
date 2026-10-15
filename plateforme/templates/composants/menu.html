@@ -1,0 +1,22 @@
+{% with chemin=request.path %}
+<a class="lien-menu {% if chemin == '/' %}actif{% endif %}" href="{% url 'tableau_de_bord' %}">Tableau de bord</a>
+<div class="titre-menu">Validations</div>
+<a class="lien-menu {% if chemin == '/validations/' %}actif{% endif %}" href="{% url 'validation:a_valider' %}">À valider et mes demandes</a>
+{% if perms.validation.view_instancevalidation %}<a class="lien-menu" href="{% url 'validation:toutes' %}">Toutes les validations</a>{% endif %}
+<a class="lien-menu" href="{% url 'validation:delegations' %}">Mes délégations</a>
+{% if perms.noyau.view_site or perms.noyau.view_utilisateur or perms.validation.view_circuit %}
+<div class="titre-menu">Administration</div>
+{% if perms.noyau.view_utilisateur %}<a class="lien-menu" href="{% url 'noyau:utilisateurs' %}">Comptes</a>
+<a class="lien-menu" href="{% url 'noyau:profils' %}">Profils</a>{% endif %}
+{% if perms.noyau.view_site %}<a class="lien-menu" href="{% url 'noyau:sites' %}">Sites</a>{% endif %}
+{% if perms.noyau.view_service %}<a class="lien-menu" href="{% url 'noyau:services' %}">Services</a>{% endif %}
+{% if perms.noyau.view_agent %}<a class="lien-menu" href="{% url 'noyau:agents' %}">Agents</a>{% endif %}
+{% if perms.noyau.view_parametre %}<a class="lien-menu" href="{% url 'noyau:parametres' %}">Paramètres</a>{% endif %}
+{% if perms.validation.view_circuit %}<a class="lien-menu" href="{% url 'validation:circuits' %}">Circuits de validation</a>{% endif %}
+{% endif %}
+{% if perms.journal.view_evenementsecurite %}
+<div class="titre-menu">Contrôle</div>
+<a class="lien-menu" href="{% url 'journal:evenements' %}">Journal de sécurité</a>
+<a class="lien-menu" href="{% url 'journal:historique' %}">Historique des modifications</a>
+{% endif %}
+{% endwith %}

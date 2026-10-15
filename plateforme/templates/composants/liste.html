@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block contenu %}
+<div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+  <h1 class="h4 mb-0 me-auto">{{ titre }}</h1>
+  <a class="btn btn-outline-secondary btn-sm" href="?{{ parametres }}{% if parametres %}&{% endif %}export=xlsx">Exporter (Excel)</a>
+  {% if url_creation %}<a class="btn btn-primary btn-sm" href="{{ url_creation }}">Nouveau</a>{% endif %}
+</div>
+{% if avec_recherche or filtres %}
+<form method="get" class="row g-2 mb-3" role="search">
+  {% if avec_recherche %}<div class="col-12 col-md-4"><label class="visually-hidden" for="q">Rechercher</label><input id="q" class="form-control" type="search" name="q" value="{{ recherche }}" placeholder="Rechercher…"></div>{% endif %}
+  {% for filtre, valeur in filtres %}
+  <div class="col-6 col-md-3"><label class="visually-hidden" for="f-{{ filtre.parametre }}">{{ filtre.libelle }}</label>
+    <select id="f-{{ filtre.parametre }}" class="form-select" name="{{ filtre.parametre }}">
+      <option value="">{{ filtre.libelle }} : tous</option>
+      {% for code, libelle in filtre.choix %}<option value="{{ code }}" {% if valeur == code|stringformat:"s" %}selected{% endif %}>{{ libelle }}</option>{% endfor %}
+    </select></div>
+  {% endfor %}
+  <div class="col-auto"><button class="btn btn-secondary">Filtrer</button> <a class="btn btn-link" href="?">Réinitialiser</a></div>
+</form>
+{% endif %}
+{% if lignes %}
+<div class="table-responsive tableau-cartes">
+<table class="table table-hover align-middle">
+  <thead><tr>
+    {% for e in entetes %}<th scope="col">{% if e.tri %}<a href="?{{ parametres_sans_tri }}{% if parametres_sans_tri %}&{% endif %}tri={% if e.actif and not e.descendant %}-{% endif %}{{ e.tri }}">{{ e.libelle }}{% if e.actif %} {% if e.descendant %}▼{% else %}▲{% endif %}{% endif %}</a>{% else %}{{ e.libelle }}{% endif %}</th>{% endfor %}
+    <th scope="col"><span class="visually-hidden">Actions</span></th>
+  </tr></thead>
+  <tbody>
+  {% for objet, valeurs in lignes %}
+    <tr>{% for libelle, v in valeurs %}<td data-label="{{ libelle }}">{{ v }}</td>{% endfor %}
+      <td class="text-end">{% if peut_ouvrir and objet.get_absolute_url %}<a class="btn btn-sm btn-outline-primary" href="{{ objet.get_absolute_url }}">Ouvrir</a>{% endif %}</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% include "composants/pagination.html" %}
+{% else %}
+<p class="text-secondary">Aucune donnée{% if recherche or request.GET %} ne correspond à ces critères{% endif %}.</p>
+{% endif %}
+{% endblock %}

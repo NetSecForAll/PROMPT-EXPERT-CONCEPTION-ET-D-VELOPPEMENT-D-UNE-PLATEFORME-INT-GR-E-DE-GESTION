@@ -1,0 +1,9 @@
+{% if is_paginated %}
+<nav aria-label="Pagination" class="d-flex align-items-center gap-3">
+  <span class="text-secondary small">{{ page_obj.paginator.count }} éléments — page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}</span>
+  <ul class="pagination pagination-sm mb-0">
+    {% if page_obj.has_previous %}<li class="page-item"><a class="page-link" href="?{{ parametres }}{% if parametres %}&{% endif %}page={{ page_obj.previous_page_number }}">Précédente</a></li>{% endif %}
+    {% if page_obj.has_next %}<li class="page-item"><a class="page-link" href="?{{ parametres }}{% if parametres %}&{% endif %}page={{ page_obj.next_page_number }}">Suivante</a></li>{% endif %}
+  </ul>
+</nav>
+{% endif %}

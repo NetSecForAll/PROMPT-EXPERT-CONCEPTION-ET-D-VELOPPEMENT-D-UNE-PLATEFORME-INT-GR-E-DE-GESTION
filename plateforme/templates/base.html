@@ -1,0 +1,58 @@
+{% load static %}<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="htmx-config" content='{"includeIndicatorStyles": false}'>
+  <title>{% block titre_page %}{{ titre|default:"Plateforme de gestion" }}{% endblock %} — Plateforme de gestion</title>
+  <link rel="stylesheet" href="{% static 'vendor/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'css/plateforme.css' %}">
+</head>
+<body>
+{% if not en_production %}<div class="bandeau-environnement">Environnement : {{ environnement }} — données non réelles</div>{% endif %}
+{% if user.is_authenticated %}
+<nav class="navbar navbar-expand bg-body border-bottom px-2 px-sm-3 sticky-top flex-nowrap">
+  <button class="btn btn-outline-secondary d-lg-none me-2" type="button" data-bs-toggle="offcanvas" data-bs-target="#menu" aria-controls="menu" aria-label="Ouvrir le menu">☰</button>
+  <a class="navbar-brand fw-semibold d-none d-sm-block" href="{% url 'tableau_de_bord' %}">Plateforme de gestion</a>
+  <div class="ms-auto d-flex align-items-center gap-1 gap-sm-2 flex-nowrap">
+    <a class="btn btn-sm btn-outline-secondary text-nowrap" href="{% url 'validation:a_valider' %}" title="Validations en attente">
+      À valider{% if nb_validations %} <span class="badge text-bg-danger">{{ nb_validations }}</span>{% endif %}
+    </a>
+    <a class="btn btn-sm btn-outline-secondary text-nowrap" href="{% url 'alertes:liste' %}" title="Alertes">
+      Alertes{% if nb_alertes %} <span class="badge text-bg-warning">{{ nb_alertes }}</span>{% endif %}
+    </a>
+    <div class="dropdown">
+      <button class="btn btn-sm btn-light dropdown-toggle text-truncate nom-utilisateur" data-bs-toggle="dropdown" aria-expanded="false">{{ user }}</button>
+      <ul class="dropdown-menu dropdown-menu-end">
+        <li><span class="dropdown-item-text small text-secondary">{{ profils_utilisateur|join:", "|default:"Aucun profil" }}</span></li>
+        <li><a class="dropdown-item" href="{% url 'mot_de_passe' %}">Changer mon mot de passe</a></li>
+        <li><a class="dropdown-item" href="{% url 'validation:delegations' %}">Mes délégations</a></li>
+        <li><hr class="dropdown-divider"></li>
+        <li><form method="post" action="{% url 'deconnexion' %}">{% csrf_token %}<button class="dropdown-item">Se déconnecter</button></form></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="d-flex">
+  <aside class="offcanvas-lg offcanvas-start menu-lateral border-end" tabindex="-1" id="menu" aria-label="Menu principal">
+    <div class="offcanvas-header d-lg-none"><span class="fw-semibold">Menu</span><button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#menu" aria-label="Fermer"></button></div>
+    <nav class="offcanvas-body flex-column p-2">
+      {% include "composants/menu.html" %}
+    </nav>
+  </aside>
+  <main class="flex-grow-1 p-3 p-lg-4 contenu">
+    {% include "composants/messages.html" %}
+    {% block contenu %}{% endblock %}
+  </main>
+</div>
+{% else %}
+<main class="container py-5 contenu-anonyme">
+  {% include "composants/messages.html" %}
+  {% block contenu_anonyme %}{% endblock %}
+</main>
+{% endif %}
+<script src="{% static 'vendor/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'vendor/htmx.min.js' %}"></script>
+<script src="{% static 'js/plateforme.js' %}"></script>
+</body>
+</html>

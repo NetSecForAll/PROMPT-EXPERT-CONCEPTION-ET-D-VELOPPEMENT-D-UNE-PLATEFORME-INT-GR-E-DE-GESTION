@@ -1,0 +1,65 @@
+# Déploiement sur un seul serveur. Lancer depuis la racine du projet :
+#   docker compose -f deploiement/docker-compose.yml --env-file .env up -d
+# Seul Nginx est exposé. Le conteneur ClamAV sera ajouté avec le module Documents.
+services:
+  postgres:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - donnees_postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      retries: 5
+
+  web:
+    build: ..
+    restart: unless-stopped
+    env_file: ../.env
+    environment:
+      POSTGRES_HOST: postgres
+      STATIC_ROOT: /app/staticfiles
+      MEDIA_ROOT: /app/fichiers
+    volumes:
+      - statiques:/app/staticfiles
+      - fichiers:/app/fichiers
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  taches:
+    build: ..
+    restart: unless-stopped
+    env_file: ../.env
+    environment:
+      POSTGRES_HOST: postgres
+      MEDIA_ROOT: /app/fichiers
+    command: ["python", "manage.py", "qcluster"]
+    volumes:
+      - fichiers:/app/fichiers
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  nginx:
+    image: nginx:1.27
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./certificats:/etc/nginx/certificats:ro
+      - statiques:/srv/statiques:ro
+      - fichiers:/srv/fichiers:ro
+    depends_on:
+      - web
+
+volumes:
+  donnees_postgres:
+  statiques:
+  fichiers:

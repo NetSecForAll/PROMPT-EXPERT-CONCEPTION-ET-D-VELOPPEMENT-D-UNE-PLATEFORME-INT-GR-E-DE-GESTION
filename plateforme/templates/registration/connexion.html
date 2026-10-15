@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block titre_page %}Connexion{% endblock %}
+{% block contenu_anonyme %}
+<h1 class="h4 mb-4 text-center">Plateforme de gestion</h1>
+<form method="post" class="card card-body" novalidate>
+  {% csrf_token %}
+  {% include "composants/champs.html" %}
+  <input type="hidden" name="next" value="{{ next }}">
+  <button class="btn btn-primary w-100">Se connecter</button>
+</form>
+<p class="small text-secondary mt-3 text-center">Mot de passe oublié : contactez l'administrateur de la plateforme.</p>
+{% endblock %}

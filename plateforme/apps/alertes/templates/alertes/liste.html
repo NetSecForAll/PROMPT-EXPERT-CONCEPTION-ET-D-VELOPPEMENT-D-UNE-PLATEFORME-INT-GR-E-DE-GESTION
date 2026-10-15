@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block titre_page %}Mes alertes{% endblock %}
+{% block contenu %}
+<h1 class="h4 mb-3">Mes alertes actives</h1>
+<form method="get" class="mb-3 d-flex gap-2">
+  <select name="gravite" class="form-select w-auto" aria-label="Gravité"><option value="">Toutes les gravités</option>
+  {% for code, libelle in gravites %}<option value="{{ code }}" {% if gravite == code|stringformat:"s" %}selected{% endif %}>{{ libelle }}</option>{% endfor %}</select>
+  <button class="btn btn-secondary">Filtrer</button>
+</form>
+{% for alerte in alertes %}{% include "alertes/_alerte.html" %}{% empty %}<p class="text-secondary">Aucune alerte active.</p>{% endfor %}
+{% include "composants/pagination.html" %}
+<p class="small text-secondary mt-3">Une alerte d'attention ou critique reste affichée jusqu'à ce que sa cause soit traitée, même après prise en compte.</p>
+{% endblock %}

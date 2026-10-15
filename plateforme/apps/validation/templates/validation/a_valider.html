@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block titre_page %}Validations{% endblock %}
+{% block contenu %}
+<h1 class="h4 mb-3">À valider</h1>
+{% if instances %}
+<div class="table-responsive tableau-cartes"><table class="table align-middle">
+  <thead><tr><th>Objet</th><th>Circuit</th><th>Étape</th><th>Demandeur</th><th>À l'étape depuis</th><th></th></tr></thead>
+  <tbody>{% for i in instances %}<tr>
+    <td data-label="Objet">{{ i.objet }}</td><td data-label="Circuit">{{ i.circuit }}</td><td data-label="Étape">{{ i.etape_courante.libelle }}</td><td data-label="Demandeur">{{ i.demandeur }}</td>
+    <td data-label="À l'étape depuis">{{ i.etape_depuis|date:"d/m/Y H:i" }}</td><td class="text-end"><a class="btn btn-sm btn-primary" href="{{ i.get_absolute_url }}">Examiner</a></td>
+  </tr>{% endfor %}</tbody></table></div>
+{% else %}<p class="text-secondary">Aucune demande en attente de votre validation.</p>{% endif %}
+
+<h2 class="h5 mt-4 mb-3">Mes demandes</h2>
+{% if mes_demandes %}
+<div class="table-responsive tableau-cartes"><table class="table align-middle">
+  <thead><tr><th>Objet</th><th>Circuit</th><th>Statut</th><th>Étape actuelle</th><th>Soumise le</th><th></th></tr></thead>
+  <tbody>{% for i in mes_demandes %}<tr>
+    <td data-label="Objet">{{ i.objet }}</td><td data-label="Circuit">{{ i.circuit }}</td><td data-label="Statut">{{ i.get_statut_display }}</td><td data-label="Étape actuelle">{{ i.etape_courante.libelle|default:"—" }}</td>
+    <td data-label="Soumise le">{{ i.soumise_le|date:"d/m/Y H:i" }}</td><td class="text-end"><a class="btn btn-sm btn-outline-primary" href="{{ i.get_absolute_url }}">Suivre</a></td>
+  </tr>{% endfor %}</tbody></table></div>
+{% else %}<p class="text-secondary">Vous n'avez soumis aucune demande.</p>{% endif %}
+{% endblock %}

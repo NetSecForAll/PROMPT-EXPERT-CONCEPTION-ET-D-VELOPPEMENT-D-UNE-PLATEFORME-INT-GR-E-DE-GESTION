@@ -1,0 +1,11 @@
+# Dépendances figées de la plateforme (installation : pip install -r requirements.txt)
+Django==5.2.7
+psycopg[binary]==3.2.10
+django-axes==8.0.0
+django-otp==1.6.1
+qrcode==8.2
+django-auditlog==3.2.1
+django-q2==1.8.0
+openpyxl==3.1.5
+python-dotenv==1.1.1
+gunicorn==23.0.0

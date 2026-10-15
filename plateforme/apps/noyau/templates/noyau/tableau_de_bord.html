@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block titre_page %}Tableau de bord{% endblock %}
+{% block contenu %}
+<h1 class="h4 mb-3">Tableau de bord</h1>
+{% if referentiels %}
+<div class="row g-3 mb-4">
+  {% for libelle, nombre in referentiels.items %}
+  <div class="col-6 col-md-3"><div class="card carte-indicateur"><div class="card-body"><div class="text-secondary small">{{ libelle }} actifs</div><div class="valeur">{{ nombre }}</div></div></div></div>
+  {% endfor %}
+</div>
+{% endif %}
+<div class="row g-4">
+  <section class="col-12 col-lg-6">
+    <h2 class="h6">Demandes à valider</h2>
+    {% for instance in validations %}
+      <a class="d-block border rounded p-2 mb-2 text-decoration-none" href="{{ instance.get_absolute_url }}">
+        <div class="fw-semibold">{{ instance.objet }}</div>
+        <div class="small text-secondary">{{ instance.circuit }} — {{ instance.etape_courante.libelle }} — par {{ instance.demandeur }}, le {{ instance.soumise_le|date:"d/m/Y" }}</div>
+      </a>
+    {% empty %}<p class="text-secondary">Aucune demande en attente de votre validation.</p>{% endfor %}
+  </section>
+  <section class="col-12 col-lg-6">
+    <h2 class="h6">Alertes actives</h2>
+    {% for alerte in alertes %}
+      {% include "alertes/_alerte.html" %}
+    {% empty %}<p class="text-secondary">Aucune alerte active.</p>{% endfor %}
+  </section>
+</div>
+{% endblock %}

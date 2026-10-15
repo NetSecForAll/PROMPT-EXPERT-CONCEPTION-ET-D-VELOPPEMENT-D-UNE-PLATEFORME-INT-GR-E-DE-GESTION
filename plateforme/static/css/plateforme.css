@@ -1,0 +1,23 @@
+.bandeau-environnement { background: #fff3cd; color: #664d03; text-align: center; font-size: .85rem; padding: .25rem; }
+.menu-lateral { width: 250px; min-height: calc(100vh - 57px); }
+.lien-menu { display: block; padding: .4rem .75rem; border-radius: .375rem; color: var(--bs-body-color); text-decoration: none; }
+.lien-menu:hover, .lien-menu:focus { background: var(--bs-secondary-bg); }
+.lien-menu.actif { background: var(--bs-primary-bg-subtle); color: var(--bs-primary-text-emphasis); font-weight: 600; }
+.titre-menu { margin: 1rem .75rem .25rem; font-size: .75rem; text-transform: uppercase; letter-spacing: .04em; color: var(--bs-secondary-color); }
+.contenu { min-width: 0; max-width: 1200px; }
+.contenu-anonyme { max-width: 440px; }
+.formulaire { max-width: 720px; }
+.formulaire ul { list-style: none; padding-left: 0; columns: 2; }
+.carte-indicateur .valeur { font-size: 1.75rem; font-weight: 600; }
+/* Sur téléphone, chaque ligne de tableau devient une carte lisible. */
+@media (max-width: 767.98px) {
+  .tableau-cartes thead { display: none; }
+  .tableau-cartes tr { display: block; border: 1px solid var(--bs-border-color); border-radius: .5rem; margin-bottom: .75rem; padding: .5rem; }
+  .tableau-cartes td { display: flex; gap: .5rem; border: 0; padding: .15rem .25rem; }
+  .tableau-cartes td[data-label]::before { content: attr(data-label); flex: 0 0 40%; color: var(--bs-secondary-color); font-size: .85rem; }
+  .tableau-cartes td:empty { display: none; }
+  .tableau-cartes td.text-end { justify-content: flex-end; }
+  .formulaire ul { columns: 1; }
+}
+.nom-utilisateur { max-width: 40vw; }
+body { overflow-x: hidden; }

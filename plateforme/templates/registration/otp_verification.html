@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block titre_page %}Code de vérification{% endblock %}
+{% block contenu %}
+<h1 class="h4">Code de vérification</h1>
+<p>Saisissez le code à 6 chiffres affiché par votre application d'authentification.</p>
+<form method="post" class="formulaire" novalidate>{% csrf_token %}{% include "composants/champs.html" %}<button class="btn btn-primary">Valider</button></form>
+<p class="small text-secondary mt-3">Téléphone perdu : l'administrateur technique peut réinitialiser votre double authentification.</p>
+<form method="post" action="{% url 'deconnexion' %}">{% csrf_token %}<button class="btn btn-link px-0">Se déconnecter</button></form>
+{% endblock %}

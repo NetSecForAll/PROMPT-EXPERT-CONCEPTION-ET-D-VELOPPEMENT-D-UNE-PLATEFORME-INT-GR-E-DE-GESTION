@@ -1,0 +1,4 @@
+{% extends "base.html" %}
+{% block titre_page %}Accès refusé{% endblock %}
+{% block contenu %}<h1 class="h4">Accès refusé</h1><p>Vous n'avez pas le droit d'ouvrir cette page. Si vous pensez qu'il s'agit d'une erreur, contactez l'administrateur fonctionnel.</p><a href="{% url 'tableau_de_bord' %}">Retour au tableau de bord</a>{% endblock %}
+{% block contenu_anonyme %}<h1 class="h4">Accès refusé</h1><a href="{% url 'connexion' %}">Se connecter</a>{% endblock %}

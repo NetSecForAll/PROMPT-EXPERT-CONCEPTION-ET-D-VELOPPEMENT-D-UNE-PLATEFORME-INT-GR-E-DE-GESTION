@@ -1,0 +1,15 @@
+<div class="border rounded p-2 mb-2 {% if alerte.gravite == 2 %}border-danger{% elif alerte.gravite == 1 %}border-warning{% endif %}">
+  <div class="d-flex gap-2 align-items-start">
+    <span class="badge {% if alerte.gravite == 2 %}text-bg-danger{% elif alerte.gravite == 1 %}text-bg-warning{% else %}text-bg-info{% endif %}">{{ alerte.get_gravite_display }}</span>
+    <div class="flex-grow-1">
+      <div class="fw-semibold">{{ alerte.titre }}</div>
+      {% if alerte.message %}<div class="small">{{ alerte.message }}</div>{% endif %}
+      <div class="small text-secondary">{{ alerte.cree_le|date:"d/m/Y H:i" }}{% if alerte.prise_en_compte_le %} — prise en compte le {{ alerte.prise_en_compte_le|date:"d/m/Y H:i" }}{% endif %}</div>
+    </div>
+    <form method="post" action="{% url 'alertes:prendre_en_compte' alerte.pk %}" class="d-flex gap-1">
+      {% csrf_token %}<input type="hidden" name="suivant" value="{{ request.get_full_path }}">
+      {% if alerte.lien %}<button class="btn btn-sm btn-outline-primary" name="ouvrir" value="1">Ouvrir</button>{% endif %}
+      {% if not alerte.prise_en_compte_le %}<button class="btn btn-sm btn-outline-secondary">Pris en compte</button>{% endif %}
+    </form>
+  </div>
+</div>

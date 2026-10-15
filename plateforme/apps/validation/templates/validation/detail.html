@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block titre_page %}Validation{% endblock %}
+{% block contenu %}
+<h1 class="h4">{{ instance.objet }}</h1>
+<p class="text-secondary">{{ instance.circuit }} — demandé par {{ instance.demandeur }} le {{ instance.soumise_le|date:"d/m/Y à H:i" }}{% if instance.montant %} — montant : {{ instance.montant }} XOF{% endif %}</p>
+<p><span class="badge text-bg-secondary">{{ instance.get_statut_display }}</span>
+{% if instance.etape_courante %} Étape en cours : <strong>{{ instance.etape_courante.libelle }}</strong>{% endif %}</p>
+{% if instance.objet.get_absolute_url %}<p><a href="{{ instance.objet.get_absolute_url }}">Ouvrir la fiche concernée</a></p>{% endif %}
+{% if instance.motif_annulation %}<p>Motif d'annulation : {{ instance.motif_annulation }}</p>{% endif %}
+{% if valideurs %}<p class="small text-secondary">Peuvent décider à cette étape : {{ valideurs|join:", " }}</p>{% endif %}
+
+<h2 class="h6 mt-4">Historique des décisions</h2>
+{% if decisions %}
+<ul class="list-group mb-4">{% for d in decisions %}
+  <li class="list-group-item"><strong>{{ d.get_decision_display }}</strong> — {{ d.etape.libelle }} — {{ d.valideur }}{% if d.par_delegation_de %} (par délégation de {{ d.par_delegation_de }}){% endif %}, le {{ d.horodatage|date:"d/m/Y à H:i" }}{% if d.motif %}<div class="small">Motif : {{ d.motif }}</div>{% endif %}</li>
+{% endfor %}</ul>
+{% else %}<p class="text-secondary">Aucune décision pour l'instant.</p>{% endif %}
+
+{% if peut_decider %}
+<h2 class="h6">Votre décision{% if delegant %} (par délégation de {{ delegant }}){% endif %}</h2>
+<form method="post" class="formulaire" novalidate data-confirmation="Confirmer cette décision ? Elle ne pourra pas être modifiée.">
+  {% csrf_token %}{% include "composants/champs.html" %}
+  <button class="btn btn-primary">Enregistrer la décision</button>
+</form>
+{% endif %}
+
+{% if peut_annuler %}
+<details class="mt-4"><summary>Annuler ma demande</summary>
+<form method="post" class="formulaire mt-2" novalidate data-confirmation="Annuler définitivement cette demande ?">
+  {% csrf_token %}{% with form=form_annulation %}{% include "composants/champs.html" %}{% endwith %}
+  <button class="btn btn-outline-danger" name="annuler" value="1">Annuler la demande</button>
+</form></details>
+{% endif %}
+{% endblock %}

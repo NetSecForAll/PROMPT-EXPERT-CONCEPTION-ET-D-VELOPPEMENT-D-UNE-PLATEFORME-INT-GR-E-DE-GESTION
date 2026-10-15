@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block titre_page %}Mes délégations{% endblock %}
+{% block contenu %}
+<h1 class="h4 mb-3">Mes délégations</h1>
+<p>Pendant la période choisie, le délégataire peut valider à votre place ; chaque décision porte la mention « par délégation ».</p>
+<form method="post" class="formulaire card card-body mb-4" novalidate>{% csrf_token %}{% include "composants/champs.html" %}<div><button class="btn btn-primary">Déléguer</button></div></form>
+<h2 class="h6">Délégations données</h2>
+{% for d in donnees %}
+<div class="d-flex align-items-center gap-2 border rounded p-2 mb-2"><div class="flex-grow-1">{{ d }}{% if not d.actif %} <span class="badge text-bg-secondary">terminée</span>{% endif %}</div>
+{% if d.actif %}<form method="post" data-confirmation="Mettre fin à cette délégation ?">{% csrf_token %}<button class="btn btn-sm btn-outline-danger" name="terminer" value="{{ d.pk }}">Terminer</button></form>{% endif %}</div>
+{% empty %}<p class="text-secondary">Aucune délégation donnée.</p>{% endfor %}
+<h2 class="h6 mt-4">Délégations reçues</h2>
+{% for d in recues %}<div class="border rounded p-2 mb-2">{{ d }}</div>{% empty %}<p class="text-secondary">Aucune délégation reçue.</p>{% endfor %}
+{% endblock %}

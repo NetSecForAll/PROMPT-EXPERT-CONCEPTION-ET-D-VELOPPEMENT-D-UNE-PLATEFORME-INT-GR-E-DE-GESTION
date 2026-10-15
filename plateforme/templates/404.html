@@ -1,0 +1,4 @@
+{% extends "base.html" %}
+{% block titre_page %}Page introuvable{% endblock %}
+{% block contenu %}<h1 class="h4">Page introuvable</h1><p>Cette page n'existe pas ou a été déplacée.</p><a href="{% url 'tableau_de_bord' %}">Retour au tableau de bord</a>{% endblock %}
+{% block contenu_anonyme %}<h1 class="h4">Page introuvable</h1><a href="{% url 'connexion' %}">Se connecter</a>{% endblock %}

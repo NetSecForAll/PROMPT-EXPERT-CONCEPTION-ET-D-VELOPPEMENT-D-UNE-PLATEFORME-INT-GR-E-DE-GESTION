@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block titre_page %}Compte verrouillé{% endblock %}
+{% block contenu_anonyme %}
+<div class="alert alert-danger" role="alert">
+  <h1 class="h5">Compte temporairement verrouillé</h1>
+  <p class="mb-0">Trop de tentatives de connexion ont échoué. Réessayez dans 15 minutes ou contactez l'administrateur.</p>
+</div>
+<a href="{% url 'connexion' %}">Retour à la connexion</a>
+{% endblock %}
